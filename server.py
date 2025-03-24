@@ -39,10 +39,11 @@ async def generate_from_model(model_name, word):
         print(f"⚠️ Model {model_name} Error: {e}")
         return ""  # ถ้าเกิดข้อผิดพลาดจากโมเดลให้คืนค่าว่าง
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 async def root():
     """ เพิ่ม route สำหรับ / เพื่อทดสอบว่าเซิร์ฟเวอร์ทำงานได้ """
     return {"message": "Server is live!"}
+
 
 @app.get("/generate_sentence/")
 async def generate_sentence(word: str):
