@@ -50,7 +50,7 @@ async def generate_sentence(word: str):
     try:
         # ลองสร้างประโยคจากโมเดลทั้งหมด
         tasks = [generate_from_model(model, word) for model in models]
-        results = await asyncio.wait_for(asyncio.gather(*tasks), timeout=10)
+        results = await asyncio.wait_for(asyncio.gather(*tasks), timeout=30)
     except asyncio.TimeoutError:
         return {"error": "⏳ Some models took too long to respond."}
 
