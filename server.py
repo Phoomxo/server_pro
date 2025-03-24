@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from transformers import pipeline
 import asyncio
+import os
 
 app = FastAPI()
 
@@ -38,6 +39,11 @@ async def generate_from_model(model_name, word):
         print(f"⚠️ Model {model_name} Error: {e}")
         return ""  # ถ้าเกิดข้อผิดพลาดจากโมเดลให้คืนค่าว่าง
 
+@app.get("/")
+async def root():
+    """ เพิ่ม route สำหรับ / เพื่อทดสอบว่าเซิร์ฟเวอร์ทำงานได้ """
+    return {"message": "Server is live!"}
+
 @app.get("/generate_sentence/")
 async def generate_sentence(word: str):
     """สร้างประโยคจากคำที่ให้มาในชีวิตประจำวัน"""
@@ -63,4 +69,5 @@ async def generate_sentence(word: str):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.getenv("PORT", 8000))  # ใช้พอร์ตที่ Render กำหนดให้
+    uvicorn.run(app, host="0.0.0.0", port=port)
